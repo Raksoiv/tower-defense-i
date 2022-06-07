@@ -48,6 +48,15 @@ func _create_bullet():
 	new_bullet.damage = stats.damage
 	new_bullet.target = enemy_target
 	new_bullet.position = Vector2(32, 32)
+
+	# Set bullet type
+	var bullet_type: Sprite = Sprite.new()
+	bullet_type.texture = $Type.texture
+	bullet_type.scale = Vector2(0.15, 0.15)
+	bullet_type.rotation_degrees = 90
+	bullet_type.modulate = Color("333333")
+	new_bullet.add_child(bullet_type)
+
 	return new_bullet
 
 
