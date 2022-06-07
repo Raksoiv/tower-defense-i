@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Resources/Towers/TowerData.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+fire_range = 500
+fire_rate = 6.0
+damage = 30
+bullet_velocity = 400
