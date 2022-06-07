@@ -5,11 +5,21 @@ class_name Enemy
 export(Resource) var stats
 
 
+var speed
+var health
+
+
 func _ready():
 	var body: Area2D = get_node("Body")
 	var error = body.connect("area_entered", self, "_on_bullet_enetered")
 	if error:
 		print_debug("[ERROR] Enemy bullet entered not conected properly")
+
+	speed = stats.speed
+	health = stats.health
+
+	$HealthBar.max_value = stats.health
+	$HealthBar.value = stats.health
 
 
 func _physics_process(delta: float):
@@ -17,12 +27,13 @@ func _physics_process(delta: float):
 
 
 func _move(delta: float):
-	set_offset(get_offset() + stats.speed * delta)
+	set_offset(get_offset() + speed * delta)
 
 
 func _take_damage(damage: int):
-	stats.health -= damage
-	if stats.health <= 0:
+	health -= damage
+	$HealthBar.value -= damage
+	if health <= 0:
 		queue_free()
 
 
