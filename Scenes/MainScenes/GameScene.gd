@@ -111,10 +111,20 @@ func cancel_build_mode():
 	$UI.delete_tower_preview()
 
 
+func _can_build(new_tower: Tower) -> bool:
+	return (
+		build_mode
+		&& build_valid
+		&& player_data.money >= new_tower.stats.cost
+	)
+
+
 func _build():
-	if build_mode && build_valid:
-		var new_tower: Tower = towers[build_type].instance()
+	var new_tower: Tower = towers[build_type].instance()
+	if _can_build(new_tower):
 		new_tower.position = build_position
 		new_tower.real = true
 		map_node.get_node("Turrets").add_child(new_tower, true)
 		map_node.get_node("Exclusion").set_cellv(build_cell_position, 5)
+		player_data.money -= new_tower.stats.cost
+		$UI.update_money()

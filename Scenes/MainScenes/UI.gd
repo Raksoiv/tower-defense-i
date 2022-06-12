@@ -18,8 +18,7 @@ onready var range_texture: StreamTexture = preload("res://Assets/UI/BaseRange.pn
 
 func _ready():
 	player_data = get_parent().player_data
-	$HUD/Stats/Money.text = str(player_data.money)
-
+	update_money()
 
 ##
 ## Game Controls Functions
@@ -84,3 +83,11 @@ func update_tower_preview(new_position: Vector2, valid: bool):
 
 func delete_tower_preview():
 	get_node("TowerPreview").free()
+
+
+
+##
+## Money Functions
+##
+func update_money():
+	$HUD/Stats/Money.text = str(player_data.money)
