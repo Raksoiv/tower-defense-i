@@ -25,6 +25,16 @@ _global_script_classes=[ {
 "path": "res://Resources/Enemies/EnemyData.gd"
 }, {
 "base": "Node2D",
+"class": "GameScene",
+"language": "GDScript",
+"path": "res://Scenes/MainScenes/GameScene.gd"
+}, {
+"base": "Resource",
+"class": "PlayerData",
+"language": "GDScript",
+"path": "res://Resources/Player/PlayerData.gd"
+}, {
+"base": "Node2D",
 "class": "Tower",
 "language": "GDScript",
 "path": "res://Scenes/Towers/Tower.gd"
@@ -38,6 +48,8 @@ _global_script_class_icons={
 "Bullet": "",
 "Enemy": "",
 "EnemyData": "",
+"GameScene": "",
+"PlayerData": "",
 "Tower": "",
 "TowerData": ""
 }

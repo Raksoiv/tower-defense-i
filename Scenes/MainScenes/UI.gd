@@ -1,6 +1,9 @@
 extends CanvasLayer
 
 
+var player_data: PlayerData
+
+
 var valid_color = Color("ccaaffaa")
 var invalid_color = Color("ccffaaaa")
 
@@ -11,6 +14,11 @@ onready var towers: Dictionary = {
 	"SpadesTower": preload("res://Scenes/Towers/SpadesTower.tscn"),
 }
 onready var range_texture: StreamTexture = preload("res://Assets/UI/BaseRange.png")
+
+
+func _ready():
+	player_data = get_parent().player_data
+	$HUD/Stats/Money.text = str(player_data.money)
 
 
 ##

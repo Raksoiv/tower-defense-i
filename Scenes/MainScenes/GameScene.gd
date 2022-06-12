@@ -1,4 +1,8 @@
 extends Node2D
+class_name GameScene
+
+
+export(Resource) var player_data
 
 
 var current_wave = 0
@@ -25,6 +29,7 @@ onready var enemies = {
 
 
 func _ready():
+	# Build buttons
 	for button in build_bar.get_children():
 		var err = button.connect("pressed", self, "_initiate_build_mode", [button.get_name()])
 		if err > 0:
@@ -48,7 +53,6 @@ func _unhandled_input(event: InputEvent):
 ##
 ## Wave Functions
 ##
-
 func start_next_wave():
 	var wave_data = _retrieve_wave_data()
 	yield(get_tree().create_timer(0.2), "timeout")
@@ -77,8 +81,6 @@ func _spawn_enemies(wave_data: Array):
 ##
 ## Build Functions
 ##
-
-
 func _initiate_build_mode(tower_name: String):
 	if build_mode:
 		cancel_build_mode()
@@ -101,6 +103,7 @@ func _update_tower_preview():
 	else:
 		$UI.update_tower_preview(tile_position, false)
 		build_valid = false
+
 
 func cancel_build_mode():
 	build_mode = false
