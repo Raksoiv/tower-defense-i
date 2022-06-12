@@ -6,5 +6,5 @@
 script = ExtResource( 1 )
 fire_range = 500
 fire_rate = 6.0
-damage = 30
+damage = 90
 bullet_velocity = 400

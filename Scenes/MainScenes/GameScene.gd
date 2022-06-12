@@ -56,7 +56,12 @@ func start_next_wave():
 
 
 func _retrieve_wave_data() -> Array:
-	var wave_data = [["Pawn", 0.7], ["Pawn", 0.7], ["Pawn", 0.7], ["Pawn", 0.1]]
+	var wave_data = [
+		["Pawn", 0.7], ["Pawn", 0.7], ["Pawn", 0.7], ["Pawn", 20.0],
+		["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 20.0],
+		["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5],
+		["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.1]
+	]
 	current_wave += 1
 	enemies_in_wave = wave_data.size()
 	return wave_data

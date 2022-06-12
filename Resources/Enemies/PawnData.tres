@@ -5,4 +5,4 @@
 [resource]
 script = ExtResource( 1 )
 speed = 100
-health = 1000
+health = 100

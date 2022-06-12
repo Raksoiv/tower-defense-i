@@ -29,14 +29,16 @@ func _ready():
 
 
 func _physics_process(_delta: float):
-	if enemy_target and ready:
+	if enemy_target and enemy_target.alive and ready:
 		_shoot()
+	if enemy_target and not enemy_target.alive:
+		_select_enemy()
 
 
 func _shoot():
 	var new_bullet: Bullet = _create_bullet()
 	add_child(new_bullet, true)
-	move_child(new_bullet, 0)
+	$Muzzle.set_emitting(true)
 	ready = false
 	yield(get_tree().create_timer(stats.fire_rate), "timeout")
 	ready = true
@@ -46,7 +48,7 @@ func _create_bullet():
 	var new_bullet: Bullet = bullet.instance()
 	new_bullet.velocity = stats.bullet_velocity
 	new_bullet.damage = stats.damage
-	new_bullet.target = enemy_target
+	new_bullet.target = enemy_target.get_node("Body")
 	new_bullet.position = Vector2(32, 32)
 
 	# Set bullet type
@@ -60,28 +62,21 @@ func _create_bullet():
 	return new_bullet
 
 
-func _select_enemy(enemy: Enemy = null):
+func _select_enemy():
 	if enemy_list.size() == 0:
 		return null
 
-	if enemy != null:
-		if enemy_target != null:
-			if enemy.offset > enemy_target.offset:
-				enemy_target = enemy
-		else:
-			enemy_target = enemy
-	else:
-		var best_enemy: Enemy = enemy_list[0]
-		for enemy in enemy_list.slice(1, enemy_list.size()):
-			if enemy.offset > best_enemy.offset:
-				best_enemy = enemy
-		enemy_target = best_enemy
+	var best_enemy: Enemy = enemy_list[0]
+	for enemy in enemy_list.slice(1, enemy_list.size()):
+		if enemy.alive and enemy.offset > best_enemy.offset:
+			best_enemy = enemy
+	enemy_target = best_enemy
 
 
 func _on_area_entered(area: Area2D):
 	var enemy: Enemy = area.get_parent()
 	enemy_list.append(enemy)
-	_select_enemy(enemy)
+	_select_enemy()
 
 
 func _on_area_exited(area: Area2D):

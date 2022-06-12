@@ -7,6 +7,7 @@ export(Resource) var stats
 
 var speed
 var health
+var alive = true
 
 
 func _ready():
@@ -20,10 +21,12 @@ func _ready():
 
 	$HealthBar.max_value = stats.health
 	$HealthBar.value = stats.health
+	$HealthBar.set_visible(false)
 
 
 func _physics_process(delta: float):
-	_move(delta)
+	if alive:
+		_move(delta)
 
 
 func _move(delta: float):
@@ -33,12 +36,28 @@ func _move(delta: float):
 func _take_damage(damage: int):
 	health -= damage
 	$HealthBar.value -= damage
+	if not $HealthBar.is_visible():
+		$HealthBar.set_visible(true)
 	if health <= 0:
-		queue_free()
+		# queue_free()
+		_die()
+
+
+func _die():
+	alive = false
+	$DeathEffect.set_emitting(true)
+	$Sprite.set_visible(false)
+	$Body.set_visible(false)
+	$HealthBar.set_visible(false)
+	yield(get_tree().create_timer($DeathEffect.lifetime), "timeout")
+	queue_free()
 
 
 func _on_bullet_enetered(area: Area2D):
 	if area.get_collision_layer_bit(1):
 		var bullet: Bullet = area.get_parent()
+		if not $HitEffect.is_emitting():
+			$HitEffect.global_position = bullet.get_node("HitPoint").global_position
+			$HitEffect.set_emitting(true)
 		_take_damage(bullet.damage)
 		bullet.queue_free()
