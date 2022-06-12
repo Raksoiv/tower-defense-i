@@ -6,7 +6,7 @@ export(Resource) var player_data
 
 
 var current_wave = 0
-var enemies_in_wave = 0
+var seconds_between_waves = 20
 
 
 var build_mode = false
@@ -61,21 +61,21 @@ func start_next_wave():
 
 func _retrieve_wave_data() -> Array:
 	var wave_data = [
-		["Pawn", 0.7], ["Pawn", 0.7], ["Pawn", 0.7], ["Pawn", 20.0],
-		["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 20.0],
-		["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5],
-		["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.5], ["Pawn", 0.1]
+		["Pawn", "Pawn", "Pawn", "Pawn"],
+		["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
+		["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
 	]
 	current_wave += 1
-	enemies_in_wave = wave_data.size()
 	return wave_data
 
 
 func _spawn_enemies(wave_data: Array):
-	for enemy in wave_data:
-		var new_enemy: Enemy = enemies[enemy[0]].instance()
-		map_node.get_node("Path").add_child(new_enemy, true)
-		yield(get_tree().create_timer(enemy[1]), "timeout")
+	for wave in wave_data:
+		for enemy in wave:
+			var new_enemy: Enemy = enemies[enemy].instance()
+			map_node.get_node("Path").add_child(new_enemy, true)
+			yield(get_tree().create_timer(new_enemy.stats.cooldown), "timeout")
+		yield(get_tree().create_timer(seconds_between_waves), "timeout")
 
 
 ##
