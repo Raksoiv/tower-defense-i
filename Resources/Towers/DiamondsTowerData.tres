@@ -4,7 +4,8 @@
 
 [resource]
 script = ExtResource( 1 )
+bullet_velocity = 150
+cost = 100
+damage = 5
 fire_range = 200
 fire_rate = 1.5
-damage = 5
-bullet_velocity = 150
