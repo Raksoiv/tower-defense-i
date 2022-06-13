@@ -10,6 +10,9 @@ var health
 var alive = true
 
 
+signal dead(enemy_data)
+
+
 func _ready():
 	var body: Area2D = get_node("Body")
 	var error = body.connect("area_entered", self, "_on_bullet_enetered")
@@ -39,12 +42,12 @@ func _take_damage(damage: int):
 	if not $HealthBar.is_visible():
 		$HealthBar.set_visible(true)
 	if health <= 0:
-		# queue_free()
 		_die()
 
 
 func _die():
 	alive = false
+	emit_signal("dead", stats)
 	$DeathEffect.set_emitting(true)
 	$Sprite.set_visible(false)
 	$Body.set_visible(false)

@@ -74,6 +74,9 @@ func _spawn_enemies(wave_data: Array):
 		for enemy in wave:
 			var new_enemy: Enemy = enemies[enemy].instance()
 			map_node.get_node("Path").add_child(new_enemy, true)
+			var err = new_enemy.connect("dead", self, "_on_enemy_dead")
+			if err > 0:
+				print_debug("[ERROR] Error connecting towers build event in GameScene")
 			yield(get_tree().create_timer(new_enemy.stats.cooldown), "timeout")
 		yield(get_tree().create_timer(seconds_between_waves), "timeout")
 
@@ -128,3 +131,11 @@ func _build():
 		map_node.get_node("Exclusion").set_cellv(build_cell_position, 5)
 		player_data.money -= new_tower.stats.cost
 		$UI.update_money()
+
+
+##
+## Money Functions
+##
+func _on_enemy_dead(enemy_data: EnemyData):
+	player_data.money += enemy_data.reward
+	$UI.update_money()
