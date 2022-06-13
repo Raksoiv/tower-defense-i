@@ -27,6 +27,18 @@ func _ready():
 		if error:
 			print_debug("[ERROR] Tower area entered not conected properly")
 
+		$FireReady.set_visible(true)
+		$FireReady.max_value = 100
+		$FireReady.value = 100
+
+
+func _process(delta: float):
+	if not ready:
+		if $FireReady.value >= 100:
+			ready = true
+			return
+		$FireReady.value += (100.0 * delta) / stats.fire_rate
+
 
 func _physics_process(_delta: float):
 	if enemy_target and enemy_target.alive and ready:
@@ -40,8 +52,7 @@ func _shoot():
 	add_child(new_bullet, true)
 	$Muzzle.set_emitting(true)
 	ready = false
-	yield(get_tree().create_timer(stats.fire_rate), "timeout")
-	ready = true
+	$FireReady.value = 0
 
 
 func _create_bullet():

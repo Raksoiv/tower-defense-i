@@ -129,6 +129,7 @@ func _build():
 		new_tower.real = true
 		map_node.get_node("Turrets").add_child(new_tower, true)
 		map_node.get_node("Exclusion").set_cellv(build_cell_position, 5)
+
 		player_data.money -= new_tower.stats.cost
 		$UI.update_money()
 

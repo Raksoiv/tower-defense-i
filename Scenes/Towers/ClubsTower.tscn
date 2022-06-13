@@ -44,3 +44,15 @@ texture = ExtResource( 5 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 150.0
+
+[node name="FireReady" type="TextureProgress" parent="."]
+visible = false
+margin_left = 23.0
+margin_top = -8.0
+margin_right = 87.0
+margin_bottom = 56.0
+rect_scale = Vector2( 0.3, 0.3 )
+value = 60.0
+texture_progress = ExtResource( 2 )
+fill_mode = 4
+tint_progress = Color( 0.8, 0.8, 0.8, 1 )
