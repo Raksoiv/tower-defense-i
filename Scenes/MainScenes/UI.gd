@@ -25,13 +25,15 @@ func _ready():
 ##
 
 func _on_PlayPause_pressed():
-	if get_parent().build_mode:
-		get_parent().cancel_build_mode()
+	var game_scene: GameScene = get_parent()
+
+	if game_scene.build_mode:
+		game_scene.cancel_build_mode()
 
 	if get_tree().is_paused():
 		get_tree().paused = false
-	elif get_parent().current_wave == 0:
-		get_parent().start_next_wave()
+	elif game_scene.current_wave == 0:
+		game_scene.start_next_wave()
 	else:
 		get_tree().paused = true
 

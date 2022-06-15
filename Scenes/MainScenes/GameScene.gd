@@ -6,7 +6,14 @@ export(Resource) var player_data
 
 
 var current_wave = 0
-var seconds_between_waves = 20
+var last_wave = 0
+var seconds_between_waves = 10
+var wave_active = false
+var waves = [
+	["Pawn", "Pawn", "Pawn", "Pawn"],
+	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
+	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
+]
 
 
 var build_mode = false
@@ -37,8 +44,17 @@ func _ready():
 
 
 func _process(_delta: float):
+	# Build
 	if build_mode:
 		_update_tower_preview()
+
+	# Waves
+	elif wave_active and _get_active_enemies() == 0 and current_wave != len(waves):
+		_start_wave_pause()
+	elif current_wave != last_wave and not wave_active:
+		$UI/HUD/WaveBar/Sec2NextWave.text = str(ceil($WaveTimer.time_left))
+		if $WaveTimer.is_stopped():
+			start_next_wave()
 
 
 func _unhandled_input(event: InputEvent):
@@ -54,31 +70,39 @@ func _unhandled_input(event: InputEvent):
 ## Wave Functions
 ##
 func start_next_wave():
+	$UI/HUD/WaveBar.visible = false
+	last_wave = current_wave
 	var wave_data = _retrieve_wave_data()
 	yield(get_tree().create_timer(0.2), "timeout")
 	_spawn_enemies(wave_data)
 
 
+func _start_wave_pause():
+	wave_active = false
+	$WaveTimer.start(seconds_between_waves)
+	$UI/HUD/WaveBar.visible = true
+	$UI/HUD/WaveBar/Sec2NextWave.text = str(seconds_between_waves)
+
+
 func _retrieve_wave_data() -> Array:
-	var wave_data = [
-		["Pawn", "Pawn", "Pawn", "Pawn"],
-		["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
-		["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
-	]
-	current_wave += 1
-	return wave_data
+	return waves[current_wave]
 
 
 func _spawn_enemies(wave_data: Array):
-	for wave in wave_data:
-		for enemy in wave:
-			var new_enemy: Enemy = enemies[enemy].instance()
-			map_node.get_node("Path").add_child(new_enemy, true)
-			var err = new_enemy.connect("dead", self, "_on_enemy_dead")
-			if err > 0:
-				print_debug("[ERROR] Error connecting towers build event in GameScene")
-			yield(get_tree().create_timer(new_enemy.stats.cooldown), "timeout")
-		yield(get_tree().create_timer(seconds_between_waves), "timeout")
+	for enemy in wave_data:
+		var new_enemy: Enemy = enemies[enemy].instance()
+		map_node.get_node("Path").add_child(new_enemy, true)
+		var err = new_enemy.connect("dead", self, "_on_enemy_dead")
+		if err > 0:
+			print_debug("[ERROR] Error connecting towers build event in GameScene")
+		yield(get_tree().create_timer(new_enemy.stats.cooldown), "timeout")
+
+	current_wave += 1
+	wave_active = true
+
+
+func _get_active_enemies():
+	return map_node.get_node("Path").get_child_count()
 
 
 ##
