@@ -10,9 +10,18 @@ var last_wave = 0
 var seconds_between_waves = 10
 var wave_active = false
 var waves = [
-	["Pawn", "Pawn", "Pawn", "Pawn"],
-	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
-	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
+	["Pawn", "Pawn", "Pawn"],
+	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
+	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
+	[
+		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
+		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
+	],
+	[
+		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
+		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
+		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
+	]
 ]
 
 
@@ -33,6 +42,7 @@ onready var towers = {
 onready var enemies = {
 	"Pawn": preload("res://Scenes/Enemies/Pawn.tscn"),
 }
+onready var enemy_data = preload("res://Resources/Enemies/PawnData.tres")
 
 
 func _ready():
@@ -89,6 +99,9 @@ func _retrieve_wave_data() -> Array:
 
 
 func _spawn_enemies(wave_data: Array):
+	if current_wave > 2:
+		enemy_data.health += enemy_data.health * 0.2
+
 	for enemy in wave_data:
 		var new_enemy: Enemy = enemies[enemy].instance()
 		map_node.get_node("Path").add_child(new_enemy, true)
