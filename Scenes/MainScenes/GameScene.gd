@@ -2,7 +2,8 @@ extends Node2D
 class_name GameScene
 
 
-export(Resource) var player_data
+var player_money = 300
+var player_lives = 5
 
 
 var current_wave = 0
@@ -42,7 +43,7 @@ onready var towers = {
 onready var enemies = {
 	"Pawn": preload("res://Scenes/Enemies/Pawn.tscn"),
 }
-onready var enemy_data = preload("res://Resources/Enemies/PawnData.tres")
+onready var enemy_stats = preload("res://Resources/Enemies/PawnData.tres")
 
 
 func _ready():
@@ -51,6 +52,10 @@ func _ready():
 		var err = button.connect("pressed", self, "_initiate_build_mode", [button.get_name()])
 		if err > 0:
 			print_debug("[ERROR] Error connecting towers build event in GameScene")
+
+	# Enemy reach end signal
+	var end = map_node.get_node("Deck")
+	end.connect("enemy_reach_end", self, "_on_enemy_reach_end")
 
 
 func _process(_delta: float):
@@ -100,7 +105,7 @@ func _retrieve_wave_data() -> Array:
 
 func _spawn_enemies(wave_data: Array):
 	if current_wave > 2:
-		enemy_data.health += enemy_data.health * 0.2
+		enemy_stats.health += enemy_stats.health * 0.2
 
 	for enemy in wave_data:
 		var new_enemy: Enemy = enemies[enemy].instance()
@@ -155,7 +160,7 @@ func _can_build(new_tower: Tower) -> bool:
 	return (
 		build_mode
 		&& build_valid
-		&& player_data.money >= new_tower.stats.cost
+		&& player_money >= new_tower.stats.cost
 	)
 
 
@@ -167,13 +172,17 @@ func _build():
 		map_node.get_node("Turrets").add_child(new_tower, true)
 		map_node.get_node("Exclusion").set_cellv(build_cell_position, 5)
 
-		player_data.money -= new_tower.stats.cost
+		player_money -= new_tower.stats.cost
 		$UI.update_money()
 
 
 ##
-## Money Functions
+## Player Functions
 ##
 func _on_enemy_dead(enemy_data: EnemyData):
-	player_data.money += enemy_data.reward
+	player_money += enemy_data.reward
 	$UI.update_money()
+
+
+func _on_enemy_reach_end(enemy_data: EnemyData):
+	player_lives -= enemy_data.damage
