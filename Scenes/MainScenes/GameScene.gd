@@ -7,16 +7,23 @@ var player_lives = 5
 
 
 var current_wave = 0
+var enemy_stats: EnemyData
 var last_wave = 0
-var seconds_between_waves = 10
+var seconds_between_waves = 5
 var wave_active = false
 var waves = [
 	["Pawn", "Pawn", "Pawn"],
 	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
+	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
 	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
 	[
 		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
 		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
+	],
+	[
+		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
+		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
+		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
 	],
 	[
 		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
@@ -43,13 +50,16 @@ onready var towers = {
 onready var enemies = {
 	"Pawn": preload("res://Scenes/Enemies/Pawn.tscn"),
 }
-onready var enemy_stats = preload("res://Resources/Enemies/PawnData.tres")
 
 
 func _ready():
+	# Initializing
+	enemy_stats = ResourceLoader.load("res://Resources/Enemies/PawnData.tres", "", true)
+
 	# Build buttons
-	for button in build_bar.get_children():
-		var err = button.connect("pressed", self, "_initiate_build_mode", [button.get_name()])
+	for container in build_bar.get_children():
+		var button = container.get_node("TowerButton")
+		var err = button.connect("pressed", self, "_initiate_build_mode", [container.get_name()])
 		if err > 0:
 			print_debug("[ERROR] Error connecting towers build event in GameScene")
 
@@ -64,8 +74,11 @@ func _process(_delta: float):
 		_update_tower_preview()
 
 	# Waves
-	elif wave_active and _get_active_enemies() == 0 and current_wave != len(waves):
-		_start_wave_pause()
+	if wave_active and _get_active_enemies() == 0:
+		if current_wave != len(waves):
+			_start_wave_pause()
+		else:
+			$UI/Menu.win_menu()
 	elif current_wave != last_wave and not wave_active:
 		$UI/HUD/WaveBar/Sec2NextWave.text = str(ceil($WaveTimer.time_left))
 		if $WaveTimer.is_stopped():
@@ -79,6 +92,9 @@ func _unhandled_input(event: InputEvent):
 		elif event.is_action_released("ui_accept"):
 			_build()
 			cancel_build_mode()
+	else:
+		if event.is_action_released("ui_cancel"):
+			$UI/Menu.pause_menu()
 
 
 ##
@@ -105,10 +121,13 @@ func _retrieve_wave_data() -> Array:
 
 func _spawn_enemies(wave_data: Array):
 	if current_wave > 2:
-		enemy_stats.health += enemy_stats.health * 0.2
+		enemy_stats.health += enemy_stats.health * 0.3
+		enemy_stats.cooldown -= enemy_stats.cooldown * 0.2
+		enemy_stats.speed += enemy_stats.speed * 0.05
 
 	for enemy in wave_data:
 		var new_enemy: Enemy = enemies[enemy].instance()
+		new_enemy.stats = enemy_stats
 		map_node.get_node("Path").add_child(new_enemy, true)
 		var err = new_enemy.connect("dead", self, "_on_enemy_dead")
 		if err > 0:
@@ -186,3 +205,6 @@ func _on_enemy_dead(enemy_data: EnemyData):
 
 func _on_enemy_reach_end(enemy_data: EnemyData):
 	player_lives -= enemy_data.damage
+	$UI.update_lives()
+	if player_lives <= 0:
+		$UI/Menu.game_over_menu()

@@ -2,12 +2,10 @@ extends PathFollow2D
 class_name Enemy
 
 
-export(Resource) var stats
-
-
-var speed
-var health
-var alive = true
+var stats: EnemyData
+var speed: int
+var health: int
+var alive := true
 
 
 signal dead(enemy_data)
@@ -41,7 +39,7 @@ func _take_damage(damage: int):
 	$HealthBar.value -= damage
 	if not $HealthBar.is_visible():
 		$HealthBar.set_visible(true)
-	if health <= 0:
+	if health <= 0 and alive:
 		_die()
 
 

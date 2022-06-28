@@ -17,8 +17,9 @@ onready var range_texture: StreamTexture = preload("res://Assets/UI/BaseRange.pn
 
 
 func _ready():
-	player_data = get_parent().player_data
 	update_money()
+	update_lives()
+	update_tower_costs()
 
 ##
 ## Game Controls Functions
@@ -92,4 +93,20 @@ func delete_tower_preview():
 ## Money Functions
 ##
 func update_money():
-	$HUD/Stats/Money.text = str(player_data.money)
+	$HUD/Stats/Money.text = str(get_parent().player_money)
+
+
+##
+## Lives Functions
+##
+func update_lives():
+	$HUD/Stats/Lives.text = str(get_parent().player_lives)
+
+
+##
+## Tower Functions
+##
+func update_tower_costs():
+	var tower = "ClubsTower"
+	var label = get_node("HUD/BuildBar/" + tower + "/Cost/Label")
+	label.text = str(towers[tower].instance().stats.cost)
