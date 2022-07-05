@@ -8,8 +8,9 @@ func _ready():
 	get_node("MainMenu/M/VB/Quit").connect("pressed", self, "_on_quit_pressed")
 
 	# Game Settings
-	$MusicPlayer.volume_db = game_settings.music_vol
-	$SoundButtonClick.volume_db = game_settings.sound_vol
+	AudioServer.set_bus_volume_db(0, game_settings.master_vol)
+	AudioServer.set_bus_volume_db(1, game_settings.music_vol)
+	AudioServer.set_bus_volume_db(2, game_settings.sound_vol)
 
 
 func clean_modifiers():

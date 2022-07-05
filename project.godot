@@ -62,7 +62,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Neon Defense"
+config/name="ChessTD"
 run/main_scene="res://SceneHandler.tscn"
 config/icon="res://icon.png"
 
