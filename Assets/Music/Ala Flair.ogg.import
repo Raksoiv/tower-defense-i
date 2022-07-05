@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Ala Flair.ogg-2f249c0da3483181b4a1bf5a0a7fce19.oggstr"
+
+[deps]
+
+source_file="res://Assets/Music/Ala Flair.ogg"
+dest_files=[ "res://.import/Ala Flair.ogg-2f249c0da3483181b4a1bf5a0a7fce19.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

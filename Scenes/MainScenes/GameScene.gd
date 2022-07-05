@@ -50,6 +50,7 @@ onready var towers = {
 onready var enemies = {
 	"Pawn": preload("res://Scenes/Enemies/Pawn.tscn"),
 }
+onready var game_settings: GameSettings = preload("res://Resources/Game/GameSettings.tres")
 
 
 func _ready():
@@ -66,6 +67,9 @@ func _ready():
 	# Enemy reach end signal
 	var end = map_node.get_node("Deck")
 	end.connect("enemy_reach_end", self, "_on_enemy_reach_end")
+
+	# Game settings
+	$MusicPlayer.volume_db = game_settings.music_vol
 
 
 func _process(_delta: float):
