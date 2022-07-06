@@ -9,24 +9,39 @@ export(float) var sound_vol setget sound_vol_set, sound_vol_get
 
 
 func master_vol_set(new_value: float):
-    master_vol = clamp(new_value, 0, 1)
+	master_vol = clamp(new_value, 0, 1)
+	AudioServer.set_bus_volume_db(0, -60 + (master_vol * 60))
 
 
 func master_vol_get() -> float:
-    return -60 + (master_vol * 60)
+	return -60 + (master_vol * 60)
+
+
+func master_vol_real() -> float:
+	return master_vol
 
 
 func music_vol_set(new_value: float):
-    music_vol = clamp(new_value, 0, 1)
+	music_vol = clamp(new_value, 0, 1)
+	AudioServer.set_bus_volume_db(1, -60 + (music_vol * 60))
 
 
 func music_vol_get() -> float:
-    return -60 + (music_vol * 60)
+	return -60 + (music_vol * 60)
+
+
+func music_vol_real() -> float:
+	return music_vol
 
 
 func sound_vol_set(new_value: float):
-    sound_vol = clamp(new_value, 0, 1)
+	sound_vol = clamp(new_value, 0, 1)
+	AudioServer.set_bus_volume_db(2, -60 + (sound_vol * 60))
 
 
 func sound_vol_get() -> float:
-    return -60 + (sound_vol * 60)
+	return -60 + (sound_vol * 60)
+
+
+func sound_vol_real() -> float:
+	return sound_vol

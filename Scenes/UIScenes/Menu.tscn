@@ -1,19 +1,15 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/UI/Art/tiles.png" type="Texture" id=1]
 [ext_resource path="res://Assets/UI/Buttons/grey_button03.png" type="Texture" id=2]
 [ext_resource path="res://Assets/UI/Buttons/grey_button05.png" type="Texture" id=3]
-[ext_resource path="res://Resources/UITheme.tres" type="Theme" id=4]
-[ext_resource path="res://Assets/Fonts/Nunito-Light.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Resources/Themes/MainMenuBaseTheme.tres" type="Theme" id=4]
 [ext_resource path="res://Scenes/UIScenes/Menu.gd" type="Script" id=6]
-
-[sub_resource type="DynamicFont" id=1]
-size = 25
-font_data = ExtResource( 5 )
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 4 )
 script = ExtResource( 6 )
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -46,25 +42,22 @@ texture = ExtResource( 1 )
 stretch_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 531.0
-margin_top = 213.0
-margin_right = 748.0
-margin_bottom = 506.0
+margin_left = 545.0
+margin_top = 220.0
+margin_right = 735.0
+margin_bottom = 499.0
 grow_horizontal = 2
-custom_constants/separation = 20
 
 [node name="Title" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_right = 217.0
-margin_bottom = 56.0
-theme = ExtResource( 4 )
+margin_right = 190.0
+margin_bottom = 42.0
 text = "Pause Menu"
 align = 1
 
 [node name="ResumeB" type="TextureButton" parent="CenterContainer/VBoxContainer"]
-margin_left = 13.0
-margin_top = 76.0
-margin_right = 203.0
-margin_bottom = 125.0
+margin_top = 62.0
+margin_right = 190.0
+margin_bottom = 111.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource( 2 )
@@ -74,8 +67,6 @@ texture_pressed = ExtResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -5.0
-theme = ExtResource( 4 )
-custom_fonts/font = SubResource( 1 )
 text = "Continue"
 align = 1
 valign = 1
@@ -84,10 +75,9 @@ __meta__ = {
 }
 
 [node name="RestartB" type="TextureButton" parent="CenterContainer/VBoxContainer"]
-margin_left = 13.0
-margin_top = 145.0
-margin_right = 203.0
-margin_bottom = 194.0
+margin_top = 131.0
+margin_right = 190.0
+margin_bottom = 180.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource( 2 )
@@ -97,23 +87,20 @@ texture_pressed = ExtResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -5.0
-theme = ExtResource( 4 )
-custom_fonts/font = SubResource( 1 )
 text = "Restart"
 align = 1
 valign = 1
 
 [node name="Separator" type="Control" parent="CenterContainer/VBoxContainer"]
-margin_top = 214.0
-margin_right = 217.0
-margin_bottom = 224.0
+margin_top = 200.0
+margin_right = 190.0
+margin_bottom = 210.0
 rect_min_size = Vector2( 0, 10 )
 
 [node name="QuitB" type="TextureButton" parent="CenterContainer/VBoxContainer"]
-margin_left = 13.0
-margin_top = 244.0
-margin_right = 203.0
-margin_bottom = 293.0
+margin_top = 230.0
+margin_right = 190.0
+margin_bottom = 279.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource( 2 )
@@ -123,8 +110,6 @@ texture_pressed = ExtResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -5.0
-theme = ExtResource( 4 )
-custom_fonts/font = SubResource( 1 )
 text = "Quit"
 align = 1
 valign = 1

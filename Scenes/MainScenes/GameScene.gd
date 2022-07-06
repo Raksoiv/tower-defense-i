@@ -186,6 +186,7 @@ func _can_build(new_tower: Tower) -> bool:
 func _build():
 	var new_tower: Tower = towers[build_type].instance()
 	if _can_build(new_tower):
+		$SFX/SoundPlaceTower.play(0.3)
 		new_tower.position = build_position
 		new_tower.real = true
 		map_node.get_node("Turrets").add_child(new_tower, true)

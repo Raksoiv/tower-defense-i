@@ -4,13 +4,8 @@ onready var game_scene = preload("res://Scenes/MainScenes/GameScene.tscn")
 onready var game_settings = preload("res://Resources/Game/GameSettings.tres")
 
 func _ready():
-	get_node("MainMenu/M/VB/NewGame").connect("pressed", self, "_on_new_game_pressed")
-	get_node("MainMenu/M/VB/Quit").connect("pressed", self, "_on_quit_pressed")
-
-	# Game Settings
-	AudioServer.set_bus_volume_db(0, game_settings.master_vol)
-	AudioServer.set_bus_volume_db(1, game_settings.music_vol)
-	AudioServer.set_bus_volume_db(2, game_settings.sound_vol)
+	get_node("MainMenu/Main/HBoxContainer/VB/NewGame").connect("pressed", self, "_on_new_game_pressed")
+	get_node("MainMenu/Main/HBoxContainer/VB/Quit").connect("pressed", self, "_on_quit_pressed")
 
 
 func clean_modifiers():
