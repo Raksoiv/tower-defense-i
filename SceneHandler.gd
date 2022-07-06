@@ -7,6 +7,11 @@ func _ready():
 	get_node("MainMenu/Main/HBoxContainer/VB/NewGame").connect("pressed", self, "_on_new_game_pressed")
 	get_node("MainMenu/Main/HBoxContainer/VB/Quit").connect("pressed", self, "_on_quit_pressed")
 
+	# Game Settings
+	AudioServer.set_bus_volume_db(0, game_settings.master_vol)
+	AudioServer.set_bus_volume_db(1, game_settings.music_vol)
+	AudioServer.set_bus_volume_db(2, game_settings.sound_vol)
+
 
 func clean_modifiers():
 	get_tree().paused = false

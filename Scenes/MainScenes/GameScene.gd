@@ -148,6 +148,7 @@ func _get_active_enemies():
 func _initiate_build_mode(tower_name: String):
 	if build_mode:
 		cancel_build_mode()
+	$UI/SoundButtonClick.play()
 	$UI.set_tower_preview(tower_name, get_global_mouse_position())
 	build_type = tower_name
 	build_mode = true

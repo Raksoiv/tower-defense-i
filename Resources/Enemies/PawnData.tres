@@ -8,5 +8,6 @@ cooldown = 0.8
 cost = 1
 damage = 1
 health = 80
+level = 1
 reward = 31
 speed = 100

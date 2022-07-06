@@ -26,6 +26,7 @@ func _ready():
 ##
 
 func _on_PlayPause_pressed():
+	$SoundButtonClick.play()
 	var game_scene: GameScene = get_parent()
 
 	if game_scene.build_mode:
@@ -40,6 +41,7 @@ func _on_PlayPause_pressed():
 
 
 func _on_FastForward_pressed():
+	$SoundButtonClick.play()
 	if Engine.get_time_scale() == 2.0:
 		Engine.set_time_scale(1.0)
 	else:

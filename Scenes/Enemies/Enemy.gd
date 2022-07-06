@@ -24,6 +24,8 @@ func _ready():
 	$HealthBar.value = stats.health
 	$HealthBar.set_visible(false)
 
+	_sfx_choice(stats.level)
+
 
 func _physics_process(delta: float):
 	if alive:
@@ -55,10 +57,19 @@ func _die():
 
 
 func _on_bullet_enetered(area: Area2D):
-	if area.get_collision_layer_bit(1):
+	if alive and area.get_collision_layer_bit(1):
 		var bullet: Bullet = area.get_parent()
+		$SoundHit.play()
 		if not $HitEffect.is_emitting():
 			$HitEffect.global_position = bullet.get_node("HitPoint").global_position
 			$HitEffect.set_emitting(true)
 		_take_damage(bullet.damage)
 		bullet.queue_free()
+
+
+func _sfx_choice(level: int):
+	var effect_n = randi() % 5
+
+	match level:
+		1:
+			$SoundHit.stream = load("res://Assets/Sounds/EnemyHit/light_" + str(effect_n) + ".ogg")

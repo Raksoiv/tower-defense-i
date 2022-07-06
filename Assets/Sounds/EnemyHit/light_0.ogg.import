@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/light_0.ogg-8a898a592f62d6de7f6b85592f99b298.oggstr"
+
+[deps]
+
+source_file="res://Assets/Sounds/EnemyHit/light_0.ogg"
+dest_files=[ "res://.import/light_0.ogg-8a898a592f62d6de7f6b85592f99b298.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
