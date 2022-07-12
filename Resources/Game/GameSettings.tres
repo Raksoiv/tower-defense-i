@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource( 1 )
 master_vol = 0.8
-music_vol = 1.0
+music_vol = 0.8
 sound_vol = 1.0
