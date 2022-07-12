@@ -11,6 +11,8 @@ func _physics_process(delta: float):
 	if target == null:
 		queue_free()
 		return
+	if target.is_queued_for_deletion():
+		return
 	if target.get_parent().is_queued_for_deletion() || not target.get_parent().alive:
 		queue_free()
 		return

@@ -45,26 +45,26 @@ func _take_damage(damage: int):
 		_die()
 
 
+func _emit_hit_effect(position: Vector2):
+	if not $HitEffect.is_emitting():
+		$HitEffect.global_position = position
+		$HitEffect.set_emitting(true)
+
+
 func _die():
 	alive = false
+	$AnimationPlayer.play("Die")
 	emit_signal("dead", stats)
-	$DeathEffect.set_emitting(true)
-	$Sprite.set_visible(false)
-	$Body.set_visible(false)
-	$HealthBar.set_visible(false)
-	yield(get_tree().create_timer($DeathEffect.lifetime), "timeout")
-	queue_free()
 
 
 func _on_bullet_enetered(area: Area2D):
 	if alive and area.get_collision_layer_bit(1):
 		var bullet: Bullet = area.get_parent()
-		$SoundHit.play()
-		if not $HitEffect.is_emitting():
-			$HitEffect.global_position = bullet.get_node("HitPoint").global_position
-			$HitEffect.set_emitting(true)
+		_emit_hit_effect(bullet.get_node("HitPoint").global_position)
 		_take_damage(bullet.damage)
 		bullet.queue_free()
+		if not $AnimationPlayer.is_playing():
+			$AnimationPlayer.play("TakeDamage")
 
 
 func _sfx_choice(level: int):

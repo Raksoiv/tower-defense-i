@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/towerPlace.ogg-04cf4fd3128fc94d7c2ad39680976947.oggstr"
+
+[deps]
+
+source_file="res://Assets/Sounds/towerPlace.ogg"
+dest_files=[ "res://.import/towerPlace.ogg-04cf4fd3128fc94d7c2ad39680976947.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

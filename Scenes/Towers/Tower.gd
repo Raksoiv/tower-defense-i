@@ -48,14 +48,11 @@ func _physics_process(_delta: float):
 
 
 func _shoot():
-	var new_bullet: Bullet = _create_bullet()
-	add_child(new_bullet, true)
-	$Muzzle.set_emitting(true)
+	$AnimationPlayer.play("Shoot")
 	ready = false
-	$FireReady.value = 0
 
 
-func _create_bullet():
+func _spawn_bullet():
 	var new_bullet: Bullet = bullet.instance()
 	new_bullet.velocity = stats.bullet_velocity
 	new_bullet.damage = stats.damage
@@ -70,7 +67,7 @@ func _create_bullet():
 	bullet_type.modulate = Color("333333")
 	new_bullet.add_child(bullet_type)
 
-	return new_bullet
+	add_child(new_bullet, true)
 
 
 func _select_enemy():
