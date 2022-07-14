@@ -4,8 +4,11 @@ extends CanvasLayer
 var player_data: PlayerData
 
 
-var valid_color = Color("ccaaffaa")
-var invalid_color = Color("ccffaaaa")
+var build_valid_color = Color("ccaaffaa")
+var build_invalid_color = Color("ccffaaaa")
+
+var button_disabled_color = Color("ccc")
+var button_enabled_color = Color("333")
 
 
 onready var towers: Dictionary = {
@@ -17,9 +20,11 @@ onready var range_texture: StreamTexture = preload("res://Assets/UI/BaseRange.pn
 
 
 func _ready():
+	update_tower_costs()
 	update_money()
 	update_lives()
-	update_tower_costs()
+
+	$HUD/Stats/Waves.text = "0"
 
 ##
 ## Game Controls Functions
@@ -55,13 +60,13 @@ func _on_FastForward_pressed():
 func set_tower_preview(tower_name: String, mouse_position: Vector2):
 	var drag_tower: Tower = towers[tower_name].instance()
 	drag_tower.set_name("DragTower")
-	drag_tower.modulate = invalid_color
+	drag_tower.modulate = build_invalid_color
 
 	var range_instance = Sprite.new()
 	range_instance.set_name("RangePreview")
 	range_instance.position = Vector2(32, 32)
 	range_instance.texture = range_texture
-	range_instance.modulate = invalid_color
+	range_instance.modulate = build_invalid_color
 	var scaling: float = float(drag_tower.stats.fire_range) / range_texture.get_height()
 	range_instance.scale = Vector2(scaling, scaling)
 
@@ -75,9 +80,9 @@ func set_tower_preview(tower_name: String, mouse_position: Vector2):
 
 
 func update_tower_preview(new_position: Vector2, valid: bool):
-	var color = invalid_color
+	var color = build_invalid_color
 	if valid:
-		color = valid_color
+		color = build_valid_color
 
 	if get_node("TowerPreview").rect_position != new_position:
 		get_node("TowerPreview").rect_position = new_position
@@ -96,6 +101,22 @@ func delete_tower_preview():
 ##
 func update_money():
 	$HUD/Stats/Money.text = str(get_parent().player_money)
+	update_towers_available()
+
+
+func update_towers_available():
+	var player_money: int = get_parent().player_money
+	var tower := "ClubsTower"
+	var button: TextureButton = get_node("HUD/BuildBar/" + tower + "/TowerButton")
+	var button_icon: TextureRect = button.get_node("Icon")
+	var tower_cost := int(get_node("HUD/BuildBar/" + tower + "/Cost/Label").text)
+
+	if tower_cost > player_money:
+		button.disabled = true
+		button_icon.modulate = button_disabled_color
+	else:
+		button.disabled = false
+		button_icon.modulate = button_enabled_color
 
 
 ##

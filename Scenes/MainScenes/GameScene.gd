@@ -2,8 +2,8 @@ extends Node2D
 class_name GameScene
 
 
-var player_money = 300
-var player_lives = 5
+var player_money := 300
+var player_lives := 5
 
 
 var current_wave = 0
@@ -106,6 +106,7 @@ func start_next_wave():
 	var wave_data = _retrieve_wave_data()
 	yield(get_tree().create_timer(0.2), "timeout")
 	_spawn_enemies(wave_data)
+	$UI/HUD/Stats/Waves.text = str(current_wave + 1)
 
 
 func _start_wave_pause():
