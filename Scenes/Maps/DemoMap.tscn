@@ -135,4 +135,4 @@ tile_data = PoolIntArray( 65537, 1, 0, 65548, 1, 0, 65556, 3, 0, 131075, 0, 1, 1
 curve = SubResource( 3 )
 
 [node name="Deck" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1243, 317 )
+position = Vector2( 1243, 313 )

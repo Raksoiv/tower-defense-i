@@ -1,7 +1,7 @@
 extends Control
 
 
-onready var game_settings = preload("res://Resources/Game/GameSettings.tres")
+onready var game_settings: GameSettings = preload("res://Resources/Game/GameSettings.tres")
 
 
 func _ready():
