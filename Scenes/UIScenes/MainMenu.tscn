@@ -75,7 +75,7 @@ modulate = Color( 0.2, 0.2, 0.2, 1 )
 margin_top = 457.0
 margin_right = 590.0
 margin_bottom = 499.0
-text = "v0.2.0"
+text = "v0.2.1"
 align = 1
 
 [node name="VB" type="VBoxContainer" parent="Main/HBoxContainer"]
@@ -87,9 +87,9 @@ alignment = 1
 
 [node name="NewGame" type="TextureButton" parent="Main/HBoxContainer/VB"]
 margin_left = 120.0
-margin_top = 95.0
+margin_top = 142.0
 margin_right = 470.0
-margin_bottom = 170.0
+margin_bottom = 217.0
 rect_min_size = Vector2( 350, 75 )
 size_flags_horizontal = 4
 texture_normal = ExtResource( 2 )
@@ -105,9 +105,9 @@ valign = 1
 
 [node name="Settings" type="TextureButton" parent="Main/HBoxContainer/VB"]
 margin_left = 120.0
-margin_top = 190.0
+margin_top = 237.0
 margin_right = 470.0
-margin_bottom = 265.0
+margin_bottom = 312.0
 rect_min_size = Vector2( 350, 75 )
 size_flags_horizontal = 4
 texture_normal = ExtResource( 2 )
@@ -122,6 +122,7 @@ align = 1
 valign = 1
 
 [node name="About" type="TextureButton" parent="Main/HBoxContainer/VB"]
+visible = false
 margin_left = 120.0
 margin_top = 285.0
 margin_right = 470.0
@@ -140,16 +141,16 @@ align = 1
 valign = 1
 
 [node name="Control" type="Control" parent="Main/HBoxContainer/VB"]
-margin_top = 380.0
+margin_top = 332.0
 margin_right = 590.0
-margin_bottom = 430.0
+margin_bottom = 382.0
 rect_min_size = Vector2( 0, 50 )
 
 [node name="Quit" type="TextureButton" parent="Main/HBoxContainer/VB"]
 margin_left = 120.0
-margin_top = 450.0
+margin_top = 402.0
 margin_right = 470.0
-margin_bottom = 525.0
+margin_bottom = 477.0
 rect_min_size = Vector2( 350, 75 )
 size_flags_horizontal = 4
 texture_normal = ExtResource( 2 )
