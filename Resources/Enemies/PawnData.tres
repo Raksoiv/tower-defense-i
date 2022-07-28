@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource( 1 )
 cooldown = 0.8
-cost = 1
+cost = 30
 damage = 1
 health = 80
 level = 1
