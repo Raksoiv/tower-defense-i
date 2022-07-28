@@ -165,4 +165,4 @@ func _on_enemy_reach_end(enemy_data: EnemyData):
 	player_lives -= enemy_data.damage
 	$UI.update_lives()
 	if player_lives <= 0:
-		$UI/Menu.game_over_menu()
+		$UI/Menu.game_over_menu(enemy_ai.current_wave)

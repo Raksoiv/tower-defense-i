@@ -21,15 +21,10 @@ func pause_menu():
 	$CenterContainer/Main/Title.text = "Pause Menu"
 
 
-func game_over_menu():
+func game_over_menu(wave: int):
 	activate_menu()
 	$CenterContainer/Main/ResumeB.visible = false
-	$CenterContainer/Main/Title.text = "Game Over"
-
-
-func win_menu():
-	game_over_menu()
-	$CenterContainer/Main/Title.text = "Congratulations!"
+	$CenterContainer/Main/Title.text = "Game Over\nYou survive " + str(wave) + " waves"
 
 
 func _on_ResumeB_button_up():
