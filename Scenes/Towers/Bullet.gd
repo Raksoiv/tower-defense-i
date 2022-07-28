@@ -6,6 +6,7 @@ var target: Area2D
 var velocity: int
 var damage: int
 
+var acceleration := 50
 var direction: Vector2
 var life_span: SceneTreeTimer
 
@@ -15,6 +16,7 @@ func _ready():
 
 
 func _physics_process(delta: float):
+	velocity += acceleration
 	if is_instance_valid(target) and target.get_parent().alive:
 		direction = (target.global_position - global_position).normalized()
 	elif life_span != null and life_span.time_left <= 0:
