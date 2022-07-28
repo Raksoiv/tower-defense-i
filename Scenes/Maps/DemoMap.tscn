@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Assets/Environment/Floor.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Environment/Grass.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Environment/Deck.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Enemies/EnemyAI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Maps/DemoMapCurve.tres" type="Curve2D" id=5]
 
 [sub_resource type="TileSet" id=2]
 0/name = "Grass.png 0"
@@ -110,11 +112,6 @@
 4/shapes = [  ]
 4/z_index = 0
 
-[sub_resource type="Curve2D" id=3]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -80, 570, -28.3923, 0.297302, 28.3923, -0.297302, 176, 571, -0.148651, 20.0679, 0.148651, -20.0679, 209, 541, -0.166855, 24.3608, 0.166855, -24.3608, 210, 180, -21.0237, -0.166855, 21.0237, 0.166855, 240, 150, -25.6957, -0.166855, 25.6957, 0.166855, 420, 149, 0.33371, -15.3507, -0.33371, 15.3507, 446, 181, 0.198425, -22.6205, -0.198425, 22.6205, 450, 539, -20.8346, 0.198425, 20.8346, -0.198425, 480, 571, -31.748, 0.198425, 31.748, -0.198425, 959, 569, -0.793701, 16.6677, 0.793701, -16.6677, 987, 540, -0.33371, 20.69, 0.33371, -20.69, 987, 479, 22.0249, -0.66742, -22.0249, 0.66742, 960, 450, 18.0203, -0.33371, -18.0203, 0.33371, 780, 447, -1.00113, 17.3529, 1.00113, -17.3529, 748, 421, 0.66742, 21.6911, -0.66742, -21.6911, 746, 179, -18.0203, 0.33371, 18.0203, -0.33371, 780, 152, -22.6923, 0.33371, 22.6923, -0.33371, 1139, 149, 0.66742, -22.0249, -0.66742, 22.0249, 1173, 179, -0.33371, -31.3687, 0.33371, 31.3687, 1173, 300, -19.6889, 0, 19.6889, 0, 1200, 330, 0, 0, 0, 0, 1293, 330 )
-}
-
 [node name="DemoMap" type="Node"]
 
 [node name="Grass" type="TileMap" parent="."]
@@ -131,8 +128,8 @@ tile_data = PoolIntArray( 65537, 1, 0, 65548, 1, 0, 65556, 3, 0, 131075, 0, 1, 1
 
 [node name="Turrets" type="Node2D" parent="."]
 
-[node name="Path" type="Path2D" parent="."]
-curve = SubResource( 3 )
-
 [node name="Deck" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1243, 313 )
+
+[node name="EnemyAI" parent="." instance=ExtResource( 4 )]
+curve = ExtResource( 5 )

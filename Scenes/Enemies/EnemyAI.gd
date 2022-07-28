@@ -17,14 +17,14 @@ onready var enemy_data_dict := {
 }
 
 const stats_list = [
-	"cooldown",
-	"health",
 	"speed",
+	"health",
+	"cooldown",
 ]
 const stats_upgrade = [
+	1.2,
+	1.4,
 	.8,
-	1.3,
-	1.1,
 ]
 
 var next_money: float = 0
@@ -61,12 +61,12 @@ func buy_upgrade():
 		alter_upgrade = !alter_upgrade
 
 	var choiced_enemy: int = enemies_enum.PAWN
-	var choiced_stat_index: int = randi() % stats_list.size()
-	var choiced_stat: String = stats_list[choiced_stat_index]
+	var choiced_stat_index: int = randi() % ((stats_list.size() * 2) - 2)
+	var choiced_stat: String = stats_list[choiced_stat_index % stats_list.size()]
 
 	enemy_data_dict[choiced_enemy].set(
 		choiced_stat,
-		enemy_data_dict[choiced_enemy].get(choiced_stat) * stats_upgrade[choiced_stat_index]
+		enemy_data_dict[choiced_enemy].get(choiced_stat) * stats_upgrade[choiced_stat_index % stats_list.size()]
 	)
 
 
@@ -90,8 +90,6 @@ func buy_enemies():
 				4: 5,
 			}
 			var rand_value = randi() % 10
-			print("Chances: ", chances[current_wave % 5])
-			print("Value: ", rand_value)
 			if rand_value < chances[current_wave % 5]:
 				saved_money -= enemy_data_dict[choiced_enemy].cost
 				current_money += enemy_data_dict[choiced_enemy].cost
@@ -110,7 +108,7 @@ func buy_enemies():
 		add_child(enemy)
 
 		# Wait for enemy cooldown
-		yield(get_tree().create_timer(enemy.stats.cooldown), "timeout")
+		yield(get_tree().create_timer(enemy.stats.cooldown, false), "timeout")
 
 
 func end_wave():
@@ -119,7 +117,7 @@ func end_wave():
 
 	var max_cost_available = _get_max_cost_available()
 	saved_money += max_cost_available
-	current_money += 2 * max_cost_available
+	current_money += 1 * max_cost_available
 
 	emit_signal("wave_end")
 

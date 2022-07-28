@@ -242,5 +242,6 @@ bus = "Music"
 stream = ExtResource( 3 )
 bus = "Sound"
 
+[connection signal="timeout" from="WaveTimer" to="." method="_on_WaveTimer_timeout"]
 [connection signal="pressed" from="UI/HUD/Controls/PlayPause" to="UI" method="_on_PlayPause_pressed"]
 [connection signal="pressed" from="UI/HUD/Controls/FastForward" to="UI" method="_on_FastForward_pressed"]

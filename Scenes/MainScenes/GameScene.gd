@@ -6,31 +6,8 @@ var player_money := 300
 var player_lives := 5
 
 
-var current_wave = 0
-var enemy_stats: EnemyData
-var last_wave = 0
 var seconds_between_waves = 5
-var wave_active = false
-var waves = [
-	["Pawn", "Pawn", "Pawn"],
-	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
-	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
-	["Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn"],
-	[
-		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
-		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
-	],
-	[
-		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
-		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
-		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
-	],
-	[
-		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
-		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
-		"Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn", "Pawn",
-	]
-]
+var game_start = false
 
 
 var build_mode = false
@@ -38,6 +15,9 @@ var build_valid = false
 var build_position: Vector2
 var build_type: String
 var build_cell_position: Vector2
+
+var enemy_ai: EnemyAI
+var wave_active = false
 
 
 onready var build_bar = $UI/HUD/BuildBar
@@ -53,9 +33,6 @@ onready var enemies = {
 
 
 func _ready():
-	# Initializing
-	enemy_stats = ResourceLoader.load("res://Resources/Enemies/PawnData.tres", "", true)
-
 	# Build buttons
 	for container in build_bar.get_children():
 		var button = container.get_node("TowerButton")
@@ -67,22 +44,23 @@ func _ready():
 	var end = map_node.get_node("Deck")
 	end.connect("enemy_reach_end", self, "_on_enemy_reach_end")
 
+	# EnemyAI signals
+	enemy_ai = map_node.get_node("EnemyAI")
+	var err = enemy_ai.connect("enemy_dead", self, "_on_EnemyAI_enemy_dead")
+	if err > 0:
+		print_debug("[ERROR] Error connecting enemy dead event in GameScene")
+	err = enemy_ai.connect("wave_end", self, "_on_EnemyAI_wave_end")
+	if err > 0:
+		print_debug("[ERROR] Error connecting wave end event in GameScene")
+
 
 func _process(_delta: float):
 	# Build
 	if build_mode:
 		_update_tower_preview()
 
-	# Waves
-	if wave_active and _get_active_enemies() == 0:
-		if current_wave != len(waves):
-			_start_wave_pause()
-		else:
-			$UI/Menu.win_menu()
-	elif current_wave != last_wave and not wave_active:
+	if wave_active:
 		$UI/HUD/WaveBar/Sec2NextWave.text = str(ceil($WaveTimer.time_left))
-		if $WaveTimer.is_stopped():
-			start_next_wave()
 
 
 func _unhandled_input(event: InputEvent):
@@ -101,46 +79,23 @@ func _unhandled_input(event: InputEvent):
 ## Wave Functions
 ##
 func start_next_wave():
+	game_start = true
+	wave_active = true
 	$UI/HUD/WaveBar.visible = false
-	last_wave = current_wave
-	var wave_data = _retrieve_wave_data()
-	yield(get_tree().create_timer(0.2), "timeout")
-	_spawn_enemies(wave_data)
-	$UI/HUD/Stats/Waves.text = str(current_wave + 1)
+	enemy_ai.next_wave()
+	$UI/HUD/Stats/Waves.text = str(enemy_ai.current_wave)
 
 
-func _start_wave_pause():
-	wave_active = false
+func _on_EnemyAI_wave_end():
 	$WaveTimer.start(seconds_between_waves)
 	$UI/HUD/WaveBar.visible = true
 	$UI/HUD/WaveBar/Sec2NextWave.text = str(seconds_between_waves)
 
 
-func _retrieve_wave_data() -> Array:
-	return waves[current_wave]
+func _on_WaveTimer_timeout():
+	wave_active = false
+	start_next_wave()
 
-
-func _spawn_enemies(wave_data: Array):
-	if current_wave > 2:
-		enemy_stats.health += enemy_stats.health * 0.3
-		enemy_stats.cooldown -= enemy_stats.cooldown * 0.2
-		enemy_stats.speed += enemy_stats.speed * 0.05
-
-	for enemy in wave_data:
-		var new_enemy: Enemy = enemies[enemy].instance()
-		new_enemy.stats = enemy_stats
-		map_node.get_node("Path").add_child(new_enemy, true)
-		var err = new_enemy.connect("dead", self, "_on_enemy_dead")
-		if err > 0:
-			print_debug("[ERROR] Error connecting towers build event in GameScene")
-		yield(get_tree().create_timer(new_enemy.stats.cooldown), "timeout")
-
-	current_wave += 1
-	wave_active = true
-
-
-func _get_active_enemies():
-	return map_node.get_node("Path").get_child_count()
 
 
 ##
@@ -201,7 +156,7 @@ func _build():
 ##
 ## Player Functions
 ##
-func _on_enemy_dead(enemy_data: EnemyData):
+func _on_EnemyAI_enemy_dead(enemy_data: EnemyData):
 	player_money += enemy_data.reward
 	$UI.update_money()
 

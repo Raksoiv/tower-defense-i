@@ -39,7 +39,7 @@ func _on_PlayPause_pressed():
 
 	if get_tree().is_paused():
 		get_tree().paused = false
-	elif game_scene.current_wave == 0:
+	elif !game_scene.game_start:
 		game_scene.start_next_wave()
 	else:
 		get_tree().paused = true
