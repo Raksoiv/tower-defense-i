@@ -8,6 +8,6 @@ cooldown = 0.8
 cost = 30
 damage = 1
 health = 80
-wave = 0
+wave = 5
 reward = 31
 speed = 100
