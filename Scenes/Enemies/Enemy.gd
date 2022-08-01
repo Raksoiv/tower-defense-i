@@ -24,7 +24,7 @@ func _ready():
 	$HealthBar.value = stats.health
 	$HealthBar.set_visible(false)
 
-	_sfx_choice(stats.level)
+	_sfx_choice()
 
 
 func _physics_process(delta: float):
@@ -67,9 +67,7 @@ func _on_bullet_enetered(area: Area2D):
 			$AnimationPlayer.play("TakeDamage")
 
 
-func _sfx_choice(level: int):
+func _sfx_choice():
 	var effect_n = randi() % 5
 
-	match level:
-		1:
-			$SoundHit.stream = load("res://Assets/Sounds/EnemyHit/light_" + str(effect_n) + ".ogg")
+	$SoundHit.stream = load("res://Assets/Sounds/EnemyHit/light_" + str(effect_n) + ".ogg")

@@ -8,24 +8,22 @@ signal wave_end
 
 enum enemies_enum {
 	PAWN,
+	KNIGHT,
 }
 onready var enemies := {
 	enemies_enum.PAWN: preload("res://Scenes/Enemies/Pawn.tscn"),
+	enemies_enum.KNIGHT: preload("res://Scenes/Enemies/Knight.tscn"),
 }
 onready var enemy_data_dict := {
 	enemies_enum.PAWN: ResourceLoader.load("res://Resources/Enemies/PawnData.tres", "", true),
+	enemies_enum.KNIGHT: ResourceLoader.load("res://Resources/Enemies/KnightData.tres", "", true),
 }
 
-const stats_list = [
-	"speed",
-	"health",
-	"cooldown",
-]
-const stats_upgrade = [
-	1.2,
-	1.4,
-	.8,
-]
+const stats_upgrade := {
+	"speed": 1.2,
+	"health": 1.4,
+	"cooldown": .8,
+}
 
 var next_money: float = 0
 var current_money: float = 100
@@ -52,28 +50,28 @@ func next_wave():
 
 
 func buy_upgrade():
+	var choiced_enemy_data: EnemyData = enemy_data_dict[_choose_enemy()]
+
 	if current_wave != wave_upgrade:
 		if current_wave == 1:
 			return
-		current_money -= _get_max_cost_available() * 1.5
+		current_money -= choiced_enemy_data.cost * 1.5
 	else:
 		wave_upgrade += 3 if alter_upgrade else 2
 		alter_upgrade = !alter_upgrade
 
-	var choiced_enemy: int = enemies_enum.PAWN
-	var choiced_stat_index: int = randi() % ((stats_list.size() * 2) - 2)
-	var choiced_stat: String = stats_list[choiced_stat_index % stats_list.size()]
+	var choiced_stat: String = _choose_stat()
 
-	enemy_data_dict[choiced_enemy].set(
+	choiced_enemy_data.set(
 		choiced_stat,
-		enemy_data_dict[choiced_enemy].get(choiced_stat) * stats_upgrade[choiced_stat_index % stats_list.size()]
+		choiced_enemy_data.get(choiced_stat) * stats_upgrade[choiced_stat]
 	)
 
 
 func buy_enemies():
 	while true:
 		# Choice a random enemy
-		var choiced_enemy: int = enemies_enum.PAWN
+		var choiced_enemy: int = _choose_enemy()
 
 		# Check if can afford
 		if enemy_data_dict[choiced_enemy].cost > current_money:
@@ -122,8 +120,43 @@ func end_wave():
 	emit_signal("wave_end")
 
 
-func _get_max_cost_available():
-	return enemy_data_dict[enemies_enum.PAWN].cost
+func _get_max_cost_available() -> int:
+	var max_cost = 0
+
+	for enemy in enemy_data_dict.keys():
+		if current_wave < enemy_data_dict[enemy].wave:
+			continue
+
+		var data = enemy_data_dict[enemy]
+		if max_cost < data.cost:
+			max_cost = data.cost
+
+	return max_cost
+
+
+func _choose_enemy() -> int:
+	var available_enemies := []
+
+	for enemy in enemies_enum.values():
+		if enemy_data_dict[enemy].cost > current_money:
+			continue
+		if current_wave >= enemy_data_dict[enemy].wave:
+			available_enemies.append(enemy)
+
+	if available_enemies.size() > 0:
+		return available_enemies[randi() % available_enemies.size()]
+	return enemies_enum.PAWN
+
+
+func _choose_stat() -> String:
+	match randi() % 6:
+		0, 1, 2:
+			return "health"
+		3, 4:
+			return "speed"
+		_:
+			return "cooldown"
+
 
 
 func _check_wave_end() -> bool:
