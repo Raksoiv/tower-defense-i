@@ -18,10 +18,14 @@ onready var enemy_data_dict := {
 	enemies_enum.PAWN: ResourceLoader.load("res://Resources/Enemies/PawnData.tres", "", true),
 	enemies_enum.KNIGHT: ResourceLoader.load("res://Resources/Enemies/KnightData.tres", "", true),
 }
+var enemy_choose_probability := {
+	enemies_enum.PAWN: 100,
+	enemies_enum.KNIGHT: 100,
+}
 
 const stats_upgrade := {
 	"speed": 1.2,
-	"health": 1.4,
+	"health": 1.42,
 	"cooldown": .8,
 }
 
@@ -45,6 +49,7 @@ func _process(_delta: float):
 func next_wave():
 	wave_active = true
 	current_wave += 1
+	_update_probabilities()
 	buy_upgrade()
 	buy_enemies()
 
@@ -123,7 +128,7 @@ func end_wave():
 func _get_max_cost_available() -> int:
 	var max_cost = 0
 
-	for enemy in enemy_data_dict.keys():
+	for enemy in enemies_enum.values():
 		if current_wave < enemy_data_dict[enemy].wave:
 			continue
 
@@ -135,16 +140,12 @@ func _get_max_cost_available() -> int:
 
 
 func _choose_enemy() -> int:
-	var available_enemies := []
-
+	var val = randi() % 100
 	for enemy in enemies_enum.values():
-		if enemy_data_dict[enemy].cost > current_money:
+		if enemy_data_dict[enemy].cost > current_money and enemy_data_dict[enemy].cost > saved_money:
 			continue
-		if current_wave >= enemy_data_dict[enemy].wave:
-			available_enemies.append(enemy)
-
-	if available_enemies.size() > 0:
-		return available_enemies[randi() % available_enemies.size()]
+		if val < enemy_choose_probability[enemy]:
+			return enemy
 	return enemies_enum.PAWN
 
 
@@ -168,6 +169,18 @@ func _check_wave_end() -> bool:
 		return true
 
 	return false
+
+
+func _update_probabilities():
+	for enemy in enemies_enum.values():
+		if current_wave < enemy_data_dict[enemy].wave:
+			continue
+
+		var p_enemy = enemy - 1
+		while p_enemy >= 0:
+			enemy_choose_probability[p_enemy] = enemy_choose_probability[p_enemy] * .9
+			p_enemy -= 1
+
 
 func _on_Enemy_dead(var enemy_data: EnemyData):
 	next_money += enemy_data.cost
