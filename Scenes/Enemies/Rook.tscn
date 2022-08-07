@@ -1,0 +1,218 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Assets/Sounds/enemy_death.ogg" type="AudioStream" id=1]
+[ext_resource path="res://Assets/Effects/star.png" type="Texture" id=2]
+[ext_resource path="res://Assets/UI/HealthBar/white_box.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Enemies/chess_rook.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/Enemies/Rook.gd" type="Script" id=5]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 5.0
+height = 12.0
+
+[sub_resource type="Animation" id=2]
+resource_name = "Die"
+tracks/0/type = "value"
+tracks/0/path = NodePath("SoundDie:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HealthBar:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Body/CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("DeathEffect:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HealthBar:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "TakeDamage"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("SoundHit:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[node name="Rook" type="PathFollow2D"]
+rotate = false
+loop = false
+script = ExtResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.2, 0.2, 0.2, 1 )
+position = Vector2( 0, -17 )
+scale = Vector2( 0.55, 0.55 )
+texture = ExtResource( 4 )
+
+[node name="Body" type="Area2D" parent="."]
+position = Vector2( 0, -14 )
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
+shape = SubResource( 1 )
+
+[node name="HealthBar" type="TextureProgress" parent="."]
+margin_left = -20.0
+margin_top = -40.0
+margin_right = 20.0
+margin_bottom = -36.0
+rect_min_size = Vector2( 40, 4 )
+value = 50.0
+texture_under = ExtResource( 3 )
+texture_progress = ExtResource( 3 )
+tint_under = Color( 0.2, 0.2, 0.2, 1 )
+tint_progress = Color( 0.8, 0.8, 0.8, 1 )
+nine_patch_stretch = true
+
+[node name="HitEffect" type="CPUParticles2D" parent="."]
+modulate = Color( 0.4, 0.4, 0.4, 1 )
+scale = Vector2( 0.1, 0.1 )
+emitting = false
+amount = 15
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+lifetime_randomness = 0.2
+texture = ExtResource( 2 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 150.0
+
+[node name="DeathEffect" type="CPUParticles2D" parent="."]
+modulate = Color( 0.2, 0.2, 0.2, 1 )
+position = Vector2( 0, -14 )
+scale = Vector2( 0.2, 0.2 )
+emitting = false
+amount = 30
+one_shot = true
+explosiveness = 1.0
+randomness = 0.3
+lifetime_randomness = 0.3
+texture = ExtResource( 2 )
+direction = Vector2( 1, 1 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.8
+
+[node name="SoundHit" type="AudioStreamPlayer" parent="."]
+bus = "Sound"
+
+[node name="SoundDie" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+bus = "Sound"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Die = SubResource( 2 )
+anims/RESET = SubResource( 3 )
+anims/TakeDamage = SubResource( 4 )

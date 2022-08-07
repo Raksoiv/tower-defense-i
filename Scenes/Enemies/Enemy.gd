@@ -3,7 +3,7 @@ class_name Enemy
 
 
 var stats: EnemyData
-var speed: int
+var speed: float
 var health: int
 var alive := true
 

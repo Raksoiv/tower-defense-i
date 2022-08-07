@@ -9,18 +9,22 @@ signal wave_end
 enum enemies_enum {
 	PAWN,
 	KNIGHT,
+	ROOK,
 }
 onready var enemies := {
 	enemies_enum.PAWN: preload("res://Scenes/Enemies/Pawn.tscn"),
 	enemies_enum.KNIGHT: preload("res://Scenes/Enemies/Knight.tscn"),
+	enemies_enum.ROOK: preload("res://Scenes/Enemies/Rook.tscn"),
 }
 onready var enemy_data_dict := {
 	enemies_enum.PAWN: ResourceLoader.load("res://Resources/Enemies/PawnData.tres", "", true),
 	enemies_enum.KNIGHT: ResourceLoader.load("res://Resources/Enemies/KnightData.tres", "", true),
+	enemies_enum.ROOK: ResourceLoader.load("res://Resources/Enemies/RookData.tres", "", true),
 }
 var enemy_choose_probability := {
 	enemies_enum.PAWN: 100,
 	enemies_enum.KNIGHT: 100,
+	enemies_enum.ROOK: 100,
 }
 
 const stats_upgrade := {

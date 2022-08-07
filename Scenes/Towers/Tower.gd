@@ -53,6 +53,9 @@ func _shoot():
 
 
 func _spawn_bullet():
+	if !is_instance_valid(enemy_target):
+		return
+
 	var new_bullet: Bullet = bullet.instance()
 	new_bullet.velocity = stats.bullet_velocity
 	new_bullet.damage = stats.damage

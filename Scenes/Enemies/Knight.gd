@@ -2,18 +2,16 @@ extends Enemy
 
 
 var positions := []
-var last_direction: Vector2
-var current_position: Vector2
 
 var boost_multiplier := 1.8
-var boost_speed : int
+var boost_speed : float
 var boost_timer : SceneTreeTimer
 var boost_length := .5
 
 
 func _ready():
 	boost_timer = get_tree().create_timer(0)
-	boost_speed = int(round(speed * boost_multiplier))
+	boost_speed = speed * boost_multiplier
 
 
 func _physics_process(_delta: float):
