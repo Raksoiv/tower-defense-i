@@ -20,8 +20,6 @@ onready var range_texture: StreamTexture = preload("res://Assets/UI/BaseRange.pn
 
 
 func _ready():
-	update_tower_costs()
-	update_money()
 	update_lives()
 
 	$HUD/Stats/Waves.text = "0"
@@ -34,8 +32,8 @@ func _on_PlayPause_pressed():
 	$SoundButtonClick.play()
 	var game_scene: GameScene = get_parent()
 
-	if game_scene.build_mode:
-		game_scene.cancel_build_mode()
+	if game_scene.tower_handler.build_mode:
+		game_scene.tower_handler.cancel_build_mode()
 
 	if get_tree().is_paused():
 		get_tree().paused = false
@@ -99,24 +97,26 @@ func delete_tower_preview():
 ##
 ## Money Functions
 ##
-func update_money():
-	$HUD/Stats/Money.text = str(get_parent().player_money)
-	update_towers_available()
+func update_money(player_money: int):
+	$HUD/Stats/Money.text = str(player_money)
 
 
-func update_towers_available():
-	var player_money: int = get_parent().player_money
-	var tower := "ClubsTower"
-	var button: TextureButton = get_node("HUD/BuildBar/" + tower + "/TowerButton")
-	var button_icon: TextureRect = button.get_node("Icon")
-	var tower_cost := int(get_node("HUD/BuildBar/" + tower + "/Cost/Label").text)
+func update_towers_available(player_money: int, towers_data: Dictionary):
+	var tower_i = 0
+	for _tower_index in towers_data.values():
+		var tower = str(tower_i)
+		var button: TextureButton = get_node("HUD/BuildBar/" + tower + "/TowerButton")
+		var button_icon: TextureRect = button.get_node("Icon")
+		var tower_cost := int(get_node("HUD/BuildBar/" + tower + "/Cost/Label").text)
 
-	if tower_cost > player_money:
-		button.disabled = true
-		button_icon.modulate = button_disabled_color
-	else:
-		button.disabled = false
-		button_icon.modulate = button_enabled_color
+		if tower_cost > player_money:
+			button.disabled = true
+			button_icon.modulate = button_disabled_color
+		else:
+			button.disabled = false
+			button_icon.modulate = button_enabled_color
+
+		tower_i += 1
 
 
 ##
@@ -129,7 +129,11 @@ func update_lives():
 ##
 ## Tower Functions
 ##
-func update_tower_costs():
-	var tower = "ClubsTower"
-	var label = get_node("HUD/BuildBar/" + tower + "/Cost/Label")
-	label.text = str(towers[tower].instance().stats.cost)
+func update_tower_costs(towers_data: Dictionary):
+	var tower_i = 0
+	for tower_data in towers_data.values():
+		var tower = str(tower_i)
+		var label = get_node("HUD/BuildBar/" + tower + "/Cost/Label")
+		label.text = str(tower_data.cost)
+
+		tower_i += 1

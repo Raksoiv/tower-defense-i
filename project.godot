@@ -53,6 +53,11 @@ _global_script_classes=[ {
 "class": "TowerData",
 "language": "GDScript",
 "path": "res://Resources/Towers/TowerData.gd"
+}, {
+"base": "Node2D",
+"class": "TowerHandler",
+"language": "GDScript",
+"path": "res://Scenes/Towers/TowerHandler.gd"
 } ]
 _global_script_class_icons={
 "Bullet": "",
@@ -63,7 +68,8 @@ _global_script_class_icons={
 "GameSettings": "",
 "PlayerData": "",
 "Tower": "",
-"TowerData": ""
+"TowerData": "",
+"TowerHandler": ""
 }
 
 [application]
