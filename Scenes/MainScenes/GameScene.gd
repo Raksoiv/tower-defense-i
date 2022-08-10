@@ -44,10 +44,7 @@ func _ready():
 	tower_handler.exclusion_tilemap = $DemoMap/Exclusion
 
 	# Prepare labels and buttons
-	var towers_data: Dictionary = tower_handler.get_towers_stats()
-	$UI.update_tower_costs(towers_data)
-	$UI.update_money(player_money)
-	$UI.update_towers_available(player_money, towers_data)
+	update_ui()
 
 func _process(_delta: float):
 	if wave_active:
@@ -82,10 +79,21 @@ func _on_EnemyAI_wave_end():
 	$UI/HUD/WaveBar.visible = true
 	$UI/HUD/WaveBar/Sec2NextWave.text = str(seconds_between_waves)
 
+	if enemy_ai.current_wave % 5 == 0:
+		tower_handler.increase_tower_cost()
+		update_ui()
+
 
 func _on_WaveTimer_timeout():
 	wave_active = false
 	start_next_wave()
+
+
+func update_ui():
+	var towers_data: Dictionary = tower_handler.get_towers_stats()
+	$UI.update_tower_costs(towers_data)
+	$UI.update_money(player_money)
+	$UI.update_towers_available(player_money, towers_data)
 
 
 

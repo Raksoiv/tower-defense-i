@@ -110,3 +110,8 @@ func build():
 	new_tower.real = true
 	add_child(new_tower)
 	exclusion_tilemap.set_cellv(build_cell_position, 5)
+
+
+func increase_tower_cost():
+	for data in towers_data.values():
+		data.cost *= 1.2
