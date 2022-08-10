@@ -12,10 +12,18 @@ var life_span: SceneTreeTimer
 
 
 func _ready():
-	direction = (target.global_position - global_position).normalized()
+	init_bullet()
 
 
 func _physics_process(delta: float):
+	move_bullet(delta)
+
+
+func init_bullet():
+	direction = (target.global_position - global_position).normalized()
+
+
+func move_bullet(delta: float):
 	velocity = int(floor(velocity * acceleration))
 	if is_instance_valid(target) and target.get_parent().alive:
 		direction = (target.global_position - global_position).normalized()
