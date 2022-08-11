@@ -114,4 +114,4 @@ func build():
 
 func increase_tower_cost():
 	for data in towers_data.values():
-		data.cost *= 1.2
+		data.cost = round(data.cost * 1.2)

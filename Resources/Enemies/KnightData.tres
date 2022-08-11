@@ -4,10 +4,10 @@
 
 [resource]
 script = ExtResource( 1 )
-cooldown = 1.6
-cost = 60
+cooldown = 1.2
+cost = 45
 damage = 1
 health = 600
 wave = 5
-reward = 62
+reward = 47
 speed = 100
