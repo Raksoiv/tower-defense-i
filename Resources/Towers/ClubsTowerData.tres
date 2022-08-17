@@ -9,3 +9,4 @@ cost = 100
 damage = 30
 fire_range = 300
 fire_rate = 1.0
+wave = 0

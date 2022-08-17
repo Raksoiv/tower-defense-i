@@ -10,6 +10,8 @@ var build_invalid_color = Color("ccffaaaa")
 var button_disabled_color = Color("ccc")
 var button_enabled_color = Color("333")
 
+var towers_lock = [true, true, true]
+
 
 onready var towers: Dictionary = {
 	"ClubsTower": preload("res://Scenes/Towers/ClubsTower.tscn"),
@@ -101,20 +103,41 @@ func update_money(player_money: int):
 	$HUD/Stats/Money.text = str(player_money)
 
 
-func update_towers_available(player_money: int, towers_data: Dictionary):
+func update_towers_available(player_money: int, wave: int, towers_data: Dictionary):
 	var tower_i = 0
-	for _tower_index in towers_data.values():
+	for tower_data in towers_data.values():
 		var tower = str(tower_i)
 		var button: TextureButton = get_node("HUD/BuildBar/" + tower + "/TowerButton")
 		var button_icon: TextureRect = button.get_node("Icon")
 		var tower_cost := int(get_node("HUD/BuildBar/" + tower + "/Cost/Label").text)
 
-		if tower_cost > player_money:
+		if towers_lock[tower_i] or tower_cost > player_money:
 			button.disabled = true
 			button_icon.modulate = button_disabled_color
 		else:
 			button.disabled = false
 			button_icon.modulate = button_enabled_color
+
+		tower_i += 1
+
+
+func unlock_towers(wave: int, towers_data: Dictionary):
+	var tower_i = 0
+	for tower_data in towers_data.values():
+		var tower = str(tower_i)
+		var unlock_text: Label = get_node("HUD/BuildBar/" + tower + "/TowerButton/UnlockText")
+		var cost_icon: TextureRect = get_node("HUD/BuildBar/" + tower + "/Cost/Icon")
+		var cost_label: Label = get_node("HUD/BuildBar/" + tower + "/Cost/Label")
+
+		if tower_data.wave > wave:
+			unlock_text.text = "Unlocks\nat wave " + str(tower_data.wave + 1)
+			unlock_text.visible = true
+			cost_icon.visible = false
+			cost_label.text = ""
+		else:
+			unlock_text.visible = false
+			cost_icon.visible = true
+			towers_lock[tower_i] = false
 
 		tower_i += 1
 

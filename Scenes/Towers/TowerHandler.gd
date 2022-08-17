@@ -112,6 +112,7 @@ func build():
 	exclusion_tilemap.set_cellv(build_cell_position, 5)
 
 
-func increase_tower_cost():
+func increase_tower_cost(wave: int):
 	for data in towers_data.values():
-		data.cost = round(data.cost * 1.2)
+		if wave >= data.wave:
+			data.cost = round(data.cost * 1.2)
