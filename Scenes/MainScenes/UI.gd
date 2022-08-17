@@ -130,7 +130,7 @@ func unlock_towers(wave: int, towers_data: Dictionary):
 		var cost_label: Label = get_node("HUD/BuildBar/" + tower + "/Cost/Label")
 
 		if tower_data.wave > wave:
-			unlock_text.text = "Unlocks\nat wave " + str(tower_data.wave + 1)
+			unlock_text.text = "Unlocks\nin wave " + str(tower_data.wave + 1)
 			unlock_text.visible = true
 			cost_icon.visible = false
 			cost_label.text = ""
@@ -152,9 +152,11 @@ func update_lives():
 ##
 ## Tower Functions
 ##
-func update_tower_costs(towers_data: Dictionary):
+func update_tower_costs(wave: int, towers_data: Dictionary):
 	var tower_i = 0
 	for tower_data in towers_data.values():
+		if tower_data.wave > wave:
+			continue
 		var tower = str(tower_i)
 		var label = get_node("HUD/BuildBar/" + tower + "/Cost/Label")
 		label.text = str(tower_data.cost)

@@ -92,7 +92,7 @@ func _on_WaveTimer_timeout():
 func update_ui():
 	var towers_data: Dictionary = tower_handler.get_towers_stats()
 	$UI.unlock_towers(enemy_ai.current_wave, towers_data)
-	$UI.update_tower_costs(towers_data)
+	$UI.update_tower_costs(enemy_ai.current_wave, towers_data)
 	$UI.update_money(player_money)
 	$UI.update_towers_available(player_money, enemy_ai.current_wave, towers_data)
 

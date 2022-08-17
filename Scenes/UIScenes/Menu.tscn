@@ -1,15 +1,14 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/UI/Art/tiles.png" type="Texture" id=1]
 [ext_resource path="res://Assets/UI/Buttons/grey_button03.png" type="Texture" id=2]
 [ext_resource path="res://Assets/UI/Buttons/grey_button05.png" type="Texture" id=3]
 [ext_resource path="res://Resources/Themes/MainMenuBaseTheme.tres" type="Theme" id=4]
-[ext_resource path="res://Assets/Fonts/Nunito-Light.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Resources/Fonts/MenuOption.tres" type="DynamicFont" id=5]
 [ext_resource path="res://Scenes/UIScenes/Menu.gd" type="Script" id=6]
-
-[sub_resource type="DynamicFont" id=1]
-size = 24
-font_data = ExtResource( 5 )
+[ext_resource path="res://Resources/Fonts/MenuTitle.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Resources/Fonts/MenuButton.tres" type="DynamicFont" id=8]
+[ext_resource path="res://Resources/Fonts/MenuSubTitle.tres" type="DynamicFont" id=9]
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
@@ -47,22 +46,24 @@ texture = ExtResource( 1 )
 stretch_mode = 2
 
 [node name="Main" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 545.0
-margin_top = 181.0
-margin_right = 735.0
-margin_bottom = 539.0
+margin_left = 524.0
+margin_top = 175.0
+margin_right = 756.0
+margin_bottom = 544.0
 grow_horizontal = 2
 
 [node name="Title" type="Label" parent="CenterContainer/Main"]
-margin_right = 190.0
-margin_bottom = 42.0
+margin_right = 232.0
+margin_bottom = 53.0
+custom_fonts/font = ExtResource( 7 )
 text = "Pause Menu"
 align = 1
 
 [node name="ResumeB" type="TextureButton" parent="CenterContainer/Main"]
-margin_top = 62.0
-margin_right = 190.0
-margin_bottom = 111.0
+margin_left = 21.0
+margin_top = 73.0
+margin_right = 211.0
+margin_bottom = 122.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource( 2 )
@@ -72,6 +73,7 @@ texture_pressed = ExtResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -5.0
+custom_fonts/font = ExtResource( 8 )
 text = "Continue"
 align = 1
 valign = 1
@@ -80,9 +82,10 @@ __meta__ = {
 }
 
 [node name="RestartB" type="TextureButton" parent="CenterContainer/Main"]
-margin_top = 131.0
-margin_right = 190.0
-margin_bottom = 180.0
+margin_left = 21.0
+margin_top = 142.0
+margin_right = 211.0
+margin_bottom = 191.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource( 2 )
@@ -92,19 +95,21 @@ texture_pressed = ExtResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -5.0
+custom_fonts/font = ExtResource( 8 )
 text = "Restart"
 align = 1
 valign = 1
 
 [node name="Separator2" type="Control" parent="CenterContainer/Main"]
-margin_top = 200.0
-margin_right = 190.0
-margin_bottom = 200.0
+margin_top = 211.0
+margin_right = 232.0
+margin_bottom = 211.0
 
 [node name="SettingsB" type="TextureButton" parent="CenterContainer/Main"]
-margin_top = 220.0
-margin_right = 190.0
-margin_bottom = 269.0
+margin_left = 21.0
+margin_top = 231.0
+margin_right = 211.0
+margin_bottom = 280.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource( 2 )
@@ -117,6 +122,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -5.0
+custom_fonts/font = ExtResource( 8 )
 text = "Settings"
 align = 1
 valign = 1
@@ -125,14 +131,15 @@ __meta__ = {
 }
 
 [node name="Separator" type="Control" parent="CenterContainer/Main"]
-margin_top = 289.0
-margin_right = 190.0
-margin_bottom = 289.0
+margin_top = 300.0
+margin_right = 232.0
+margin_bottom = 300.0
 
 [node name="QuitB" type="TextureButton" parent="CenterContainer/Main"]
-margin_top = 309.0
-margin_right = 190.0
-margin_bottom = 358.0
+margin_left = 21.0
+margin_top = 320.0
+margin_right = 211.0
+margin_bottom = 369.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource( 2 )
@@ -142,6 +149,7 @@ texture_pressed = ExtResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -5.0
+custom_fonts/font = ExtResource( 8 )
 text = "Quit"
 align = 1
 valign = 1
@@ -149,9 +157,9 @@ valign = 1
 [node name="Settings" type="VBoxContainer" parent="CenterContainer"]
 visible = false
 margin_left = 490.0
-margin_top = 150.0
+margin_top = 151.0
 margin_right = 790.0
-margin_bottom = 569.0
+margin_bottom = 568.0
 grow_horizontal = 2
 rect_min_size = Vector2( 300, 0 )
 custom_constants/separation = 5
@@ -161,21 +169,22 @@ __meta__ = {
 
 [node name="Title" type="Label" parent="CenterContainer/Settings"]
 margin_right = 300.0
-margin_bottom = 42.0
+margin_bottom = 43.0
+custom_fonts/font = ExtResource( 9 )
 text = "Settings: Sound"
 align = 1
 
 [node name="Control2" type="Control" parent="CenterContainer/Settings"]
-margin_top = 47.0
+margin_top = 48.0
 margin_right = 300.0
-margin_bottom = 62.0
+margin_bottom = 63.0
 rect_min_size = Vector2( 0, 15 )
 
 [node name="Master" type="Label" parent="CenterContainer/Settings"]
-margin_top = 67.0
+margin_top = 68.0
 margin_right = 300.0
 margin_bottom = 101.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "Master"
 align = 1
 
@@ -191,8 +200,8 @@ value = 0.1
 [node name="Music" type="Label" parent="CenterContainer/Settings"]
 margin_top = 153.0
 margin_right = 300.0
-margin_bottom = 187.0
-custom_fonts/font = SubResource( 1 )
+margin_bottom = 186.0
+custom_fonts/font = ExtResource( 5 )
 text = "Music"
 align = 1
 __meta__ = {
@@ -200,9 +209,9 @@ __meta__ = {
 }
 
 [node name="MusicSlider" type="HSlider" parent="CenterContainer/Settings"]
-margin_top = 192.0
+margin_top = 191.0
 margin_right = 300.0
-margin_bottom = 234.0
+margin_bottom = 233.0
 min_value = 0.1
 max_value = 1.0
 step = 0.05
@@ -212,10 +221,10 @@ __meta__ = {
 }
 
 [node name="SFX" type="Label" parent="CenterContainer/Settings"]
-margin_top = 239.0
+margin_top = 238.0
 margin_right = 300.0
-margin_bottom = 273.0
-custom_fonts/font = SubResource( 1 )
+margin_bottom = 271.0
+custom_fonts/font = ExtResource( 5 )
 text = "SFX"
 align = 1
 __meta__ = {
@@ -223,9 +232,9 @@ __meta__ = {
 }
 
 [node name="SFXSlider" type="HSlider" parent="CenterContainer/Settings"]
-margin_top = 278.0
+margin_top = 276.0
 margin_right = 300.0
-margin_bottom = 320.0
+margin_bottom = 318.0
 min_value = 0.1
 max_value = 1.0
 step = 0.05
@@ -235,16 +244,16 @@ __meta__ = {
 }
 
 [node name="Control3" type="Control" parent="CenterContainer/Settings"]
-margin_top = 325.0
+margin_top = 323.0
 margin_right = 300.0
-margin_bottom = 365.0
+margin_bottom = 363.0
 rect_min_size = Vector2( 0, 40 )
 
 [node name="BackB" type="TextureButton" parent="CenterContainer/Settings"]
 margin_left = 55.0
-margin_top = 370.0
+margin_top = 368.0
 margin_right = 245.0
-margin_bottom = 419.0
+margin_bottom = 417.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource( 2 )
@@ -257,6 +266,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -5.0
+custom_fonts/font = ExtResource( 8 )
 text = "Back"
 align = 1
 valign = 1
