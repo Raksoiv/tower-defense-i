@@ -26,6 +26,11 @@ var enemy_choose_probability := {
 	enemies_enum.KNIGHT: 100,
 	enemies_enum.ROOK: 100,
 }
+var upgrade_choose_probability := {
+	enemies_enum.PAWN: 100,
+	enemies_enum.KNIGHT: 100,
+	enemies_enum.ROOK: 100,
+}
 
 const stats_upgrade := {
 	"speed": 1.2,
@@ -59,7 +64,7 @@ func next_wave():
 
 
 func buy_upgrade():
-	var choiced_enemy_data: EnemyData = enemy_data_dict[_choose_enemy()]
+	var choiced_enemy_data: EnemyData = enemy_data_dict[_choose_upgrade_enemy()]
 
 	if current_wave != wave_upgrade:
 		if current_wave == 1:
@@ -152,6 +157,15 @@ func _choose_enemy() -> int:
 			return enemy
 	return enemies_enum.PAWN
 
+func _choose_upgrade_enemy() -> int:
+	var val = randi() % 100
+	for enemy in enemies_enum.values():
+		if enemy_data_dict[enemy].cost > current_money and enemy_data_dict[enemy].cost > saved_money:
+			continue
+		if val < upgrade_choose_probability[enemy]:
+			return enemy
+	return enemies_enum.PAWN
+
 
 func _choose_stat() -> String:
 	match randi() % 6:
@@ -182,7 +196,8 @@ func _update_probabilities():
 
 		var p_enemy = enemy - 1
 		while p_enemy >= 0:
-			enemy_choose_probability[p_enemy] = enemy_choose_probability[p_enemy] * .9
+			enemy_choose_probability[p_enemy] = enemy_choose_probability[p_enemy] * .95
+			upgrade_choose_probability[p_enemy] = upgrade_choose_probability[p_enemy] * .9
 			p_enemy -= 1
 
 

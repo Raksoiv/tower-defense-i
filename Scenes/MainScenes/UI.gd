@@ -103,7 +103,7 @@ func update_money(player_money: int):
 	$HUD/Stats/Money.text = str(player_money)
 
 
-func update_towers_available(player_money: int, wave: int, towers_data: Dictionary):
+func update_towers_available(player_money: int, towers_data: Dictionary):
 	var tower_i = 0
 	for tower_data in towers_data.values():
 		var tower = str(tower_i)

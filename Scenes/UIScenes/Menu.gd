@@ -14,6 +14,7 @@ func activate_menu():
 	visible = true
 	get_tree().paused = true
 	$CenterContainer/Main/ResumeB.visible = true
+	$CenterContainer/Main/Subtitle.visible = false
 
 
 func pause_menu():
@@ -24,7 +25,9 @@ func pause_menu():
 func game_over_menu(wave: int):
 	activate_menu()
 	$CenterContainer/Main/ResumeB.visible = false
-	$CenterContainer/Main/Title.text = "Game Over\nYou survive " + str(wave) + " waves"
+	$CenterContainer/Main/Title.text = "Game Over"
+	$CenterContainer/Main/Subtitle.text = "You survive " + str(wave) + " waves"
+	$CenterContainer/Main/Subtitle.visible = true
 
 
 func _on_ResumeB_button_up():

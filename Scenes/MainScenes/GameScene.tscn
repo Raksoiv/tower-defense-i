@@ -171,6 +171,7 @@ expand = true
 modulate = Color( 0.2, 0.2, 0.2, 1 )
 margin_right = 80.0
 margin_bottom = 70.0
+rect_scale = Vector2( 1.00182, 1 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
 custom_fonts/font = ExtResource( 22 )
@@ -345,16 +346,20 @@ margin_right = 305.0
 margin_bottom = -20.0
 
 [node name="Label" type="Label" parent="UI/HUD/WaveBar"]
-margin_right = 209.0
-margin_bottom = 56.0
+margin_top = 1.0
+margin_right = 212.0
+margin_bottom = 54.0
 theme = ExtResource( 11 )
+custom_fonts/font = ExtResource( 21 )
 text = "Next Wave:"
 
 [node name="Sec2NextWave" type="Label" parent="UI/HUD/WaveBar"]
-margin_left = 213.0
-margin_right = 285.0
-margin_bottom = 56.0
+margin_left = 216.0
+margin_top = 1.0
+margin_right = 278.0
+margin_bottom = 54.0
 theme = ExtResource( 11 )
+custom_fonts/font = ExtResource( 21 )
 text = "100"
 
 [node name="Menu" parent="UI" instance=ExtResource( 14 )]

@@ -3,12 +3,12 @@ extends Enemy
 
 var positions := []
 
-var acceleration := 75
-var boost_multiplier := 2.5
+var acceleration := 125
+var boost_multiplier := 3
 var boost_speed: float
 
 var cooldown_timer: SceneTreeTimer
-var cooldown_time := .7
+var cooldown_time := .6
 
 
 func _ready():

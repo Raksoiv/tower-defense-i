@@ -94,7 +94,7 @@ func update_ui():
 	$UI.unlock_towers(enemy_ai.current_wave, towers_data)
 	$UI.update_tower_costs(enemy_ai.current_wave, towers_data)
 	$UI.update_money(player_money)
-	$UI.update_towers_available(player_money, enemy_ai.current_wave, towers_data)
+	$UI.update_towers_available(player_money, towers_data)
 
 
 
@@ -109,7 +109,7 @@ func _build():
 		player_money -= new_tower_stats.cost
 		var towers_data: Dictionary = tower_handler.get_towers_stats()
 		$UI.update_money(player_money)
-		$UI.update_towers_available(player_money, enemy_ai.current_wave, towers_data)
+		$UI.update_towers_available(player_money, towers_data)
 
 
 ##
@@ -119,7 +119,7 @@ func _on_EnemyAI_enemy_dead(enemy_data: EnemyData):
 	player_money += enemy_data.reward
 	var towers_data: Dictionary = tower_handler.get_towers_stats()
 	$UI.update_money(player_money)
-	$UI.update_towers_available(player_money, enemy_ai.current_wave, towers_data)
+	$UI.update_towers_available(player_money, towers_data)
 
 
 func _on_enemy_reach_end(enemy_data: EnemyData):

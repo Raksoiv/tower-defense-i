@@ -6,7 +6,7 @@
 script = ExtResource( 1 )
 bullet_velocity = 300
 cost = 200
-damage = 50
+damage = 70
 fire_range = 200
-fire_rate = 0.5
+fire_rate = 0.6
 wave = 5

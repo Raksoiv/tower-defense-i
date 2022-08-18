@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource( 1 )
-cooldown = 1.2
+cooldown = 1.1
 cost = 45
 damage = 1
 health = 600
